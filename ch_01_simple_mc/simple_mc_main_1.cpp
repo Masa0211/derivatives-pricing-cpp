@@ -8,70 +8,70 @@
 #include <cmath>
 using namespace std;
 
-double SimpleMonteCarlo1(double Expiry, 
-						 double Strike, 
-						 double Spot, 
-						 double Vol, 
-						 double r, 
-						 unsigned long NumberOfPaths)
+double SimpleMonteCarlo1(double expiry,
+						 double strike,
+						 double spot,
+						 double vol,
+						 double rate,
+						 unsigned long numberOfPaths)
 {
 
-	double variance = Vol*Vol*Expiry;
+	double variance = vol*vol*expiry;
 	double rootVariance = sqrt(variance);
 	double itoCorrection = -0.5*variance;
 
-	double movedSpot = Spot*exp(r*Expiry +itoCorrection);
+	double movedSpot = spot*exp(rate * expiry +itoCorrection);
 	double thisSpot;
 	double runningSum=0;
 
-	for (unsigned long i=0; i < NumberOfPaths; i++)
+	for (unsigned long i=0; i < numberOfPaths; i++)
 	{
-		double thisGaussian = GetOneGaussianByBoxMuller();
-		thisSpot = movedSpot*exp( rootVariance*thisGaussian);
-		double thisPayoff = thisSpot - Strike;
-    	thisPayoff = thisPayoff >0 ? thisPayoff : 0;
+		double thisGaussian = getOneGaussianByBoxMuller();
+		thisSpot = movedSpot * exp( rootVariance*thisGaussian);
+		double thisPayoff = thisSpot - strike;
+    	thisPayoff = thisPayoff > 0 ? thisPayoff : 0;
 		runningSum += thisPayoff;
 	}
 
-	double mean = runningSum / NumberOfPaths;
-	mean *= exp(-r*Expiry);
+	double mean = runningSum / numberOfPaths;
+	mean *= exp(-rate * expiry);
 	return mean;
 }
 
 int main()
 {
 
-	double Expiry;
-	double Strike; 
-	double Spot; 
-	double Vol; 
-	double r; 
-	unsigned long NumberOfPaths;
+	double expiry;
+	double strike; 
+	double spot; 
+	double vol; 
+	double rate;
+	unsigned long numberOfPaths;
 
 	cout << "\nEnter expiry\n";
-	cin >> Expiry;
+	cin >> expiry;
 
 	cout << "\nEnter strike\n";
-	cin >> Strike;
+	cin >> strike;
 
 	cout << "\nEnter spot\n";
-	cin >> Spot;
+	cin >> spot;
 
 	cout << "\nEnter vol\n";
-	cin >> Vol;
+	cin >> vol;
 
 	cout << "\nr\n";
-	cin >> r;
+	cin >> rate;
 
 	cout << "\nNumber of paths\n";
-	cin >> NumberOfPaths;
+	cin >> numberOfPaths;
 
-	double result = SimpleMonteCarlo1(Expiry,
-                                      Strike, 
-							          Spot, 
-							          Vol, 
-							          r, 
-						              NumberOfPaths);
+	double result = SimpleMonteCarlo1(expiry,
+                                      strike, 
+							          spot, 
+							          vol, 
+							          rate, 
+						              numberOfPaths);
 
 	cout <<"the price is " << result << "\n";
 

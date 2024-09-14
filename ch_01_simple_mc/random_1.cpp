@@ -12,7 +12,7 @@
 using namespace std;
 #endif
 
-double GetOneGaussianBySummation()
+double getOneGaussianBySummation()
 {
 	double result=0;
 
@@ -26,7 +26,7 @@ double GetOneGaussianBySummation()
 }
 
 
-double GetOneGaussianByBoxMuller()
+double getOneGaussianByBoxMuller()
 {
 	double result;
 
