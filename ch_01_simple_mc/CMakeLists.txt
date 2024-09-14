@@ -12,12 +12,12 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Add subdirectory
 set(SOURCE_FILES
     random_1.cpp
-	simple_mc_main_1.cpp
-	)
+    simple_mc_main_1.cpp
+    )
 
 set(HEADER_FILES
-	random_1.h
-	)
+    random_1.h
+    )
 
 # Generate executable
 add_executable(ch_01
@@ -29,8 +29,8 @@ add_executable(ch_01
 
 target_include_directories(ch_01
     PUBLIC
-	${PROJECT_SOURCE_DIR}
-	)
+    ${PROJECT_SOURCE_DIR}
+    )
 
 # Setting up the startup project
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ch_01)
