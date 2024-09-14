@@ -5,8 +5,8 @@
 //             
 
 
-#ifndef RANDOM1_H
-#define RANDOM1_H
+#ifndef RANDOM_1_H
+#define RANDOM_1_H
 
 double GetOneGaussianBySummation();
 double GetOneGaussianByBoxMuller();

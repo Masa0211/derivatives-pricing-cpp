@@ -5,7 +5,7 @@
 //
 //           
 
-#include "Random1.h"
+#include "random_1.h"
 #include <cstdlib>
 #include <cmath>
 

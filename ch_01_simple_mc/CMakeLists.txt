@@ -11,12 +11,12 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Add subdirectory
 set(SOURCE_FILES
-    Random1.cpp
-	SimpleMCMain1.cpp
+    random_1.cpp
+	simple_mc_main_1.cpp
 	)
 
 set(HEADER_FILES
-	Random1.h
+	random_1.h
 	)
 
 # Generate executable

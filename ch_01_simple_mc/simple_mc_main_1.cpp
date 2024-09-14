@@ -5,7 +5,7 @@
 //     
 //       requires Random1.cpp
 
-#include "Random1.h"
+#include "random_1.h"
 #include <iostream>
 #include <cmath>
 using namespace std;
