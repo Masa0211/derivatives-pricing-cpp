@@ -9,4 +9,4 @@
 double getOneGaussianBySummation();
 double getOneGaussianByBoxMuller();
 
-#endif
+#endif // RANDOM_1_H
