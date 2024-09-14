@@ -7,7 +7,7 @@
 #include <iostream>
 #include <cmath>
 
-double SimpleMonteCarlo1(double expiry,
+double simpleMonteCarlo1(double expiry,
 						 double strike,
 						 double spot,
 						 double vol,
@@ -65,7 +65,7 @@ int main()
 	std::cout << "\nNumber of paths\n";
 	std::cin >> numberOfPaths;
 
-	double result = SimpleMonteCarlo1(expiry,
+	double result = simpleMonteCarlo1(expiry,
                                       strike, 
 							          spot, 
 							          vol, 
