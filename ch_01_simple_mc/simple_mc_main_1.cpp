@@ -3,34 +3,39 @@
 *  Copyright (c) 2024 Masahiro OHTA
 */
 
-#include "random_1.h"
 #include <iostream>
 #include <cmath>
 
+#include <random>
+
 namespace
 {
-    double simpleMonteCarlo1(double timeToExpiry,
-        double strike,
-        double spot,
-        double vol,
-        double rate,
-        unsigned long numberOfPaths)
+    double simpleMonteCarlo1(
+        const double timeToExpiry,
+        const double strike,
+        const double spot,
+        const double vol,
+        const double rate,
+        const unsigned long numberOfPaths)
     {
 
-        double variance = vol * vol * timeToExpiry;
-        double rootVariance = std::sqrt(variance);
-        double itoCorrection = -0.5 * variance;
+        const double variance = vol * vol * timeToExpiry;
+        const double rootVariance = std::sqrt(variance);
+        const double itoCorrection = -0.5 * variance;
 
         double movedSpot = spot * std::exp(rate * timeToExpiry + itoCorrection);
-        double thisSpot;
         double runningSum = 0;
+
+        // set up random number
+        constexpr std::size_t seed = 123456789;
+        std::mt19937 generator(seed); // a specialization of std::mersenne_twister_engine
+        std::normal_distribution<double> distribution(0.0, 1.0); // standard normal distribution
 
         for (unsigned long i = 0; i < numberOfPaths; i++)
         {
-            double thisGaussian = getOneGaussianByBoxMuller();
-            thisSpot = movedSpot * std::exp(rootVariance * thisGaussian);
-            double thisPayoff = thisSpot - strike;
-            thisPayoff = thisPayoff > 0 ? thisPayoff : 0;
+            const double thisGaussian = distribution(generator);
+            const double thisSpot = movedSpot * std::exp(rootVariance * thisGaussian);
+            const double thisPayoff = std::max(thisSpot - strike, 0.0);
             runningSum += thisPayoff;
         }
 
@@ -85,7 +90,7 @@ int main()
     double spot = 95.0;
     double vol = 0.2;
     double rate = 0.05;
-    unsigned long numberOfPaths = 160000;
+    unsigned long numberOfPaths = 500000;
 
     std::cout << "Default values..." << std::endl;
     std::cout << "timeToExpiry  : " << timeToExpiry << std::endl;

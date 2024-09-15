@@ -11,18 +11,16 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Add subdirectory
 set(SOURCE_FILES
-    random_1.cpp
     simple_mc_main_1.cpp
     )
 
-set(HEADER_FILES
-    random_1.h
-    )
+#set(HEADER_FILES
+#    random_1.h
+#    )
 
 # Generate executable
 add_executable(ch_01
     ${SOURCE_FILES}
-    ${HEADER_FILES}
     )
 
 # file(GLOB_RECURSE SOURCES "*.cpp" "*.h")
