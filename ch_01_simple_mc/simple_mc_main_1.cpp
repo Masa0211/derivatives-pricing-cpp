@@ -5,7 +5,6 @@
 
 #include <iostream>
 #include <cmath>
-
 #include <random>
 
 namespace
@@ -22,16 +21,18 @@ namespace
         const double variance = vol * vol * timeToExpiry;
         const double rootVariance = std::sqrt(variance);
         const double itoCorrection = -0.5 * variance;
+        const double rt = rate * timeToExpiry;
+        const double df = std::exp(-rt);
 
-        double movedSpot = spot * std::exp(rate * timeToExpiry + itoCorrection);
-        double runningSum = 0;
+        double movedSpot = spot * std::exp(itoCorrection) / df;
+        double runningSum = 0.0;
 
         // set up random number
         constexpr std::size_t seed = 123456789;
         std::mt19937 generator(seed); // a specialization of std::mersenne_twister_engine
         std::normal_distribution<double> distribution(0.0, 1.0); // standard normal distribution
 
-        for (unsigned long i = 0; i < numberOfPaths; i++)
+        for (auto i = 0u; i < numberOfPaths; ++i)
         {
             const double thisGaussian = distribution(generator);
             const double thisSpot = movedSpot * std::exp(rootVariance * thisGaussian);
@@ -39,8 +40,8 @@ namespace
             runningSum += thisPayoff;
         }
 
-        double mean = runningSum / numberOfPaths;
-        mean *= std::exp(-rate * timeToExpiry);
+        const double mean = runningSum / numberOfPaths;
+        const double discountedMean = mean * df;
         return mean;
     }
 
@@ -113,7 +114,7 @@ int main()
         std::cout << "numberOfPaths : "; std::cin >> numberOfPaths;
     }
 
-    double result = simpleMonteCarlo1(
+    const double result = simpleMonteCarlo1(
         timeToExpiry,
         strike,
         spot,
