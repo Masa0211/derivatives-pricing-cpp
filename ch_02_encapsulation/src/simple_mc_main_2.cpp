@@ -5,59 +5,63 @@
 
 #include "simple_mc.h"
 #include <iostream>
-using namespace std;
 
 int main()
 {
+    // Don't want to input every single value when I'm debugging
+    double timeToExpiry = 0.5;
+    double strike = 100.0;
+    double spot = 95.0;
+    double vol = 0.2;
+    double rate = 0.05;
+    unsigned long numberOfPaths = 500000;
 
-	double Expiry;
-	double Strike; 
-	double Spot; 
-	double Vol; 
-	double r; 
-	unsigned long NumberOfPaths;
+    std::cout << "Default values..." << std::endl;
+    std::cout << "timeToExpiry  : " << timeToExpiry << std::endl;
+    std::cout << "strike        : " << strike << std::endl;
+    std::cout << "spot          : " << spot << std::endl;
+    std::cout << "vol           : " << vol << std::endl;
+    std::cout << "rate          : " << rate << std::endl;
+    std::cout << "numberOfPaths : " << numberOfPaths << std::endl;
 
-	cout << "\nEnter expiry\n";
-	cin >> Expiry;
+    std::cout << "Do you want to input values? [Y/N]: ";
+    char yn; std::cin >> yn;
+    if (std::tolower(yn) == 'y')
+    {
+        std::cout << "Enter values..." << std::endl;
+        std::cout << "timeToExpiry  : "; std::cin >> timeToExpiry;
+        std::cout << "strike        : "; std::cin >> strike;
+        std::cout << "spot          : "; std::cin >> spot;
+        std::cout << "vol           : "; std::cin >> vol;
+        std::cout << "rate          : "; std::cin >> rate;
+        std::cout << "numberOfPaths : "; std::cin >> numberOfPaths;
+    }
 
-	cout << "\nEnter strike\n";
-	cin >> Strike;
+    const PayOff callPayOff(strike, PayOff::call);
+    const PayOff putPayOff(strike, PayOff::put);
 
-	cout << "\nEnter spot\n";
-	cin >> Spot;
+    double resultCall = simpleMonteCarlo2(
+        callPayOff,
+        timeToExpiry,
+        spot,
+        vol,
+        rate,
+        numberOfPaths);
 
-	cout << "\nEnter vol\n";
-	cin >> Vol;
+    double resultPut = simpleMonteCarlo2(
+        putPayOff,
+        timeToExpiry,
+        spot,
+        vol,
+        rate,
+        numberOfPaths);
 
-	cout << "\nr\n";
-	cin >> r;
-
-	cout << "\nNumber of paths\n";
-	cin >> NumberOfPaths;
-
-    PayOff callPayOff(Strike, PayOff::call);
-    PayOff putPayOff(Strike, PayOff::put);
-
-	double resultCall = simpleMonteCarlo2(callPayOff,
-                                          Expiry,                                           
-							              Spot, 
-							              Vol, 
-							              r, 
-						                  NumberOfPaths);
-	
-    double resultPut = simpleMonteCarlo2(putPayOff,
-                                         Expiry,                                           
-							             Spot, 
-							             Vol, 
-							             r, 
-						                 NumberOfPaths);
-
-	cout <<"the prices are " << resultCall << "  for the call and " 
-                                    << resultPut << " for the put\n";
+    std::cout << "call price: " << resultCall << std::endl;
+    std::cout << "put  price: " << resultPut << std::endl;
 
     double tmp;
-    cin >> tmp;
+    std::cin >> tmp;
 
-	return 0;
+    return 0;
 
 }
