@@ -6,15 +6,20 @@
 #include "payoff_1.h"
 #include <cmath>
 
-PayOff::PayOff(const double strike, const OptionType theOptionsType)
+PayOff::PayOff(const double strike, const OptionType optionsType)
     : strike_(strike)
-    , theOptionsType_(theOptionsType)
+    , optionsType_(optionsType)
 {
+    // validate the type in the constructor
+    if (optionsType_ != OptionType::CALL && optionsType_ != OptionType::PUT)
+    {
+        throw("unknown option type found.");
+    }
 }
 
-double PayOff::operator ()(const double spot) const
+double PayOff::operator()(const double spot) const
 {
-    switch (theOptionsType_)
+    switch (optionsType_)
     {
     case OptionType::CALL:
         return std::max(spot - strike_, 0.0);
