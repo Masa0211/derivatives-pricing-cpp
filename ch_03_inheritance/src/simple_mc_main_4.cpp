@@ -49,7 +49,7 @@ int main()
     else
         thePayOffPtr = new PayOffPut(Strike);
 
-	double result = SimpleMonteCarlo2(*thePayOffPtr,
+	double result = simpleMonteCarlo2(*thePayOffPtr,
                                       Expiry,
                                       Spot, 
                                       Vol,

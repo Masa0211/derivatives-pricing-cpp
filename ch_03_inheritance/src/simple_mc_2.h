@@ -3,16 +3,17 @@
 *  Copyright (c) 2024 Masahiro OHTA
 */
 
-#ifndef SIMPLEMC2_H
-#define SIMPLEMC2_H
+#ifndef SIMPLEMC_H
+#define SIMPLEMC_H
 
 #include "payoff_2.h"
 
-double SimpleMonteCarlo2(const PayOff& thePayOff, 
-                         double Expiry, 
-						 double Spot,
-						 double Vol, 
-						 double r, 
-						 unsigned long NumberOfPaths);
+double simpleMonteCarlo2(
+    const PayOff& thePayOff,
+    double timeToExpiry,
+    double spot,
+    double vol,
+    double rate,
+    unsigned long numberOfPaths);
 
 #endif
