@@ -39,40 +39,87 @@ namespace
         return mean;
     }
 
-    template <typename T>
-    void inputValue(T& value, const std::string& msg)
+    inline double cumNorm(const double x)
     {
-        std::cout << msg << ": ";
-        std::cin >> value;
-        // std::cout << "\n";
-        return;
+        constexpr double ONE_OVER_SQRT_TWO = 7.07106781186547524e-1;
+        return 0.5 * std::erfc(-x * ONE_OVER_SQRT_TWO);
     }
+
+    inline double getBsPrice(
+        const double timeToExpiry,
+        const double strike,
+        const double spot,
+        const double vol,
+        const double rate,
+        const bool isCall = true)
+    {
+        const double sign = isCall ? 1.0 : -1.0;
+        const double v = vol * vol * timeToExpiry;
+        const double s = vol * std::sqrt(timeToExpiry);
+
+        const double rt = rate * timeToExpiry;
+        const double df = std::exp(-rt);
+        if (s < DBL_EPSILON)
+        {
+            const double intrinsic = df * std::max(sign * (spot - strike), 0.0);
+            return intrinsic;
+        }
+
+        const double lnM = std::log(spot / strike);
+        const double d1 = (lnM + rt + 0.5 * v) / s;
+        const double Nd1 = cumNorm(sign * d1);
+        const double Nd2 = cumNorm(sign * (d1 - s));
+
+        const double price = sign * (spot * Nd1 - df * strike * Nd2);
+
+        return price;
+    }
+
 } // namespace
 
 int main()
 {
-    double timeToExpiry;
-    double strike; 
-    double spot; 
-    double vol; 
-    double rate;
-    unsigned long numberOfPaths;
+    // Don't want to input every single value when I'm debugging
+    double timeToExpiry = 0.5;
+    double strike = 100.0;
+    double spot = 95.0;
+    double vol = 0.2;
+    double rate = 0.05;
+    unsigned long numberOfPaths = 160000;
 
-    inputValue(timeToExpiry, "Enter timeToExpiry");
-    inputValue(strike, "Enter strike");
-    inputValue(spot, "Enter spot");
-    inputValue(vol, "Enter vol");
-    inputValue(rate, "Enter rate");
-    inputValue(numberOfPaths, "Enter number of paths");
+    std::cout << "Default values..." << std::endl;
+    std::cout << "timeToExpiry  : " << timeToExpiry << std::endl;
+    std::cout << "strike        : " << strike << std::endl;
+    std::cout << "spot          : " << spot << std::endl;
+    std::cout << "vol           : " << vol << std::endl;
+    std::cout << "rate          : " << rate << std::endl;
+    std::cout << "numberOfPaths : " << numberOfPaths << std::endl;
 
-    double result = simpleMonteCarlo1(timeToExpiry,
-                                      strike, 
-                                      spot, 
-                                      vol, 
-                                      rate, 
-                                      numberOfPaths);
+    std::cout << "Do you want to input values? [Y/N]: ";
+    char yn; std::cin >> yn;
+    if (std::tolower(yn) == 'y')
+    {
+        std::cout << "Enter values..." << std::endl;
+        std::cout << "timeToExpiry  : "; std::cin >> timeToExpiry;
+        std::cout << "strike        : "; std::cin >> strike;
+        std::cout << "spot          : "; std::cin >> spot;
+        std::cout << "vol           : "; std::cin >> vol;
+        std::cout << "rate          : "; std::cin >> rate;
+        std::cout << "numberOfPaths : "; std::cin >> numberOfPaths;
+    }
 
-    std::cout <<"the price is " << result << std::endl;
+    double result = simpleMonteCarlo1(
+        timeToExpiry,
+        strike,
+        spot,
+        vol,
+        rate,
+        numberOfPaths);
+
+    std::cout <<"MC call price: " << result << std::endl;
+
+    const double bsPrice = getBsPrice(timeToExpiry, strike, spot, vol, rate);
+    std::cout <<"BS call price: " << bsPrice << std::endl;
 
     double tmp;
     std::cin >> tmp;
