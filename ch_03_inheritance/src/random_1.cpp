@@ -3,7 +3,7 @@
 *  Copyright (c) 2024 Masahiro OHTA
 */
 
-#include "Random1.h"
+#include "random_1.h"
 #include <cstdlib>
 #include <cmath>
 

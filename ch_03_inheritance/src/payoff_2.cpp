@@ -3,7 +3,7 @@
 *  Copyright (c) 2024 Masahiro OHTA
 */
 
-#include "PayOff2.h"
+#include "payoff_2.h"
 #include "minmax.h"
 
 PayOffCall::PayOffCall(double Strike_) : Strike(Strike_)
