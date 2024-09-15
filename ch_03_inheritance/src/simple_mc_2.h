@@ -8,12 +8,15 @@
 
 #include "payoff_2.h"
 
-double simpleMonteCarlo2(
-    const PayOff& thePayOff,
-    double timeToExpiry,
-    double spot,
-    double vol,
-    double rate,
-    unsigned long numberOfPaths);
+namespace derivs
+{
+    double simpleMonteCarlo2(
+        const PayOff& thePayOff,
+        double timeToExpiry,
+        double spot,
+        double vol,
+        double rate,
+        unsigned long numberOfPaths);
+} // derivs
 
 #endif

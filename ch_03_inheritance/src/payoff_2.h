@@ -6,43 +6,46 @@
 #ifndef PAYOFF2_H
 #define PAYOFF2_H
 
-class PayOff
+namespace derivs
 {
-public:
+    class PayOff
+    {
+    public:
 
-    PayOff(){};
-    virtual double operator()(double spot) const = 0;
-    virtual ~PayOff(){}
+        PayOff() {};
+        virtual double operator()(double spot) const = 0;
+        virtual ~PayOff() {}
 
-private:
-    
-};
+    private:
 
-
-class PayOffCall final : public PayOff
-{
-public:
-
-    PayOffCall(double strike);
-    virtual double operator()(double spot) const override final;
-    virtual ~PayOffCall(){}
-
-private:
-    double strike_;
-};
+    };
 
 
-class PayOffPut final : public PayOff
-{
-public:
+    class PayOffCall final : public PayOff
+    {
+    public:
 
-    PayOffPut(double strike_);
-    virtual double operator()(double spot) const override final;
-    virtual ~PayOffPut(){}
+        PayOffCall(double strike);
+        virtual double operator()(double spot) const override final;
+        virtual ~PayOffCall() {}
 
-private:
-    double strike_;
+    private:
+        double strike_;
+    };
 
-};
+
+    class PayOffPut final : public PayOff
+    {
+    public:
+
+        PayOffPut(double strike_);
+        virtual double operator()(double spot) const override final;
+        virtual ~PayOffPut() {}
+
+    private:
+        double strike_;
+
+    };
+} // derivs
 
 #endif

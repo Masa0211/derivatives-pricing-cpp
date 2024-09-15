@@ -40,13 +40,13 @@ int main()
         std::cout << "call/put [c/p]: "; std::cin >> cp;
     }
 
-    PayOff* thePayOffPtr;
+    derivs::PayOff* thePayOffPtr;
     if (std::tolower(cp) == 'c')
-        thePayOffPtr = new PayOffCall(strike);
+        thePayOffPtr = new derivs::PayOffCall(strike);
     else
-        thePayOffPtr = new PayOffPut(strike);
+        thePayOffPtr = new derivs::PayOffPut(strike);
 
-    double result = simpleMonteCarlo2(
+    double result = derivs::simpleMonteCarlo2(
         *thePayOffPtr,
         timeToExpiry,
         spot,

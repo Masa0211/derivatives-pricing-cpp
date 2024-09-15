@@ -7,7 +7,7 @@
 #include <cmath>
 #include <random>
 
-double simpleMonteCarlo2(
+double derivs::simpleMonteCarlo2(
     const PayOff& thePayOff,
     const double timeToExpiry,
     const double spot,
