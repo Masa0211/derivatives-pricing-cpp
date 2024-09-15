@@ -10,15 +10,13 @@ class PayOff
 {
 
 public:
-
-    enum  OptionType {call, put};
+    enum class OptionType {CALL, PUT}; // use enum type instead of unscoped-enum
     PayOff(double Strike_, OptionType TheOptionsType_);
     double operator()(double Spot) const;
 
 private:
-    
-    double Strike;
-    OptionType TheOptionsType;
+    double strike_;
+    OptionType theOptionsType_;
 
 };
 

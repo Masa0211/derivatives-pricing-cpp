@@ -37,8 +37,8 @@ int main()
         std::cout << "numberOfPaths : "; std::cin >> numberOfPaths;
     }
 
-    const PayOff callPayOff(strike, PayOff::call);
-    const PayOff putPayOff(strike, PayOff::put);
+    const PayOff callPayOff(strike, PayOff::OptionType::CALL);
+    const PayOff putPayOff(strike, PayOff::OptionType::PUT);
 
     double resultCall = simpleMonteCarlo2(
         callPayOff,
