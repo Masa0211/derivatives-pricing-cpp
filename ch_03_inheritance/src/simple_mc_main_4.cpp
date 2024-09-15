@@ -5,6 +5,7 @@
 
 #include "simple_mc_2.h"
 #include <iostream>
+#include <memory>
 
 int main()
 {
@@ -40,13 +41,13 @@ int main()
         std::cout << "call/put [c/p]: "; std::cin >> cp;
     }
 
-    derivs::PayOff* thePayOffPtr;
+    std::unique_ptr<const derivs::PayOff> thePayOffPtr;
     if (std::tolower(cp) == 'c')
-        thePayOffPtr = new derivs::PayOffCall(strike);
+        thePayOffPtr = std::make_unique<const derivs::PayOffCall>(strike);
     else
-        thePayOffPtr = new derivs::PayOffPut(strike);
+        thePayOffPtr = std::make_unique<const derivs::PayOffPut>(strike);
 
-    double result = derivs::simpleMonteCarlo2(
+    const double result = derivs::simpleMonteCarlo2(
         *thePayOffPtr,
         timeToExpiry,
         spot,
@@ -57,8 +58,6 @@ int main()
     std::cout << "price: " << result << std::endl;
     double tmp;
     std::cin >> tmp;
-
-    delete thePayOffPtr;
 
     return 0;
 
