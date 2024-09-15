@@ -3,7 +3,7 @@
 *  Copyright (c) 2024 Masahiro OHTA
 */
 
-#include "SimpleMC.h"
+#include "simple_mc.h"
 #include<iostream>
 using namespace std;
 

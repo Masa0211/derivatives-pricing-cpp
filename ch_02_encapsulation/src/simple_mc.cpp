@@ -3,8 +3,8 @@
 *  Copyright (c) 2024 Masahiro OHTA
 */
 
-#include "SimpleMC.h"
-#include "Random1.h"
+#include "simple_mc.h"
+#include "random_1.h"
 #include <cmath>
 
 // the basic math functions should be in namespace std but aren't in VCPP6

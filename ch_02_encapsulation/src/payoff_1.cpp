@@ -3,8 +3,8 @@
 *  Copyright (c) 2024 Masahiro OHTA
 */
 
-#include "PayOff1.h"
-#include "MinMax.h"
+#include "payoff_1.h"
+#include <cmath>
 
 PayOff::PayOff(double Strike_, OptionType TheOptionsType_)
 :
@@ -17,10 +17,10 @@ double PayOff::operator ()(double spot) const
     switch (TheOptionsType)
     {
     case call : 
-        return max(spot-Strike,0.0);
+        return std::max(spot-Strike,0.0);
 
     case put:
-        return max(Strike-spot,0.0);
+        return std::max(Strike-spot,0.0);
 
     default: 
         throw("unknown option type found.");
