@@ -4,23 +4,24 @@
 */
 
 #include "payoff_2.h"
-#include "minmax.h"
+#include <cmath>
 
-PayOffCall::PayOffCall(double Strike_) : Strike(Strike_)
+PayOffCall::PayOffCall(const double strike)
+    : strike_(strike)
 {
 }
 
-double PayOffCall::operator () (double Spot) const
+double PayOffCall::operator() (const double spot) const
 {
-    return max(Spot-Strike,0.0);
+    return std::max(spot - strike_, 0.0);
 }
 
-
-double PayOffPut::operator () (double Spot) const
+PayOffPut::PayOffPut(const double strike)
+    : strike_(strike)
 {
-    return max(Strike-Spot,0.0);
 }
 
-PayOffPut::PayOffPut(double Strike_) : Strike(Strike_)
+double PayOffPut::operator()(const double spot) const
 {
+    return std::max(strike_ - spot, 0.0);
 }
