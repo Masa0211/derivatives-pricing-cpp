@@ -4,7 +4,7 @@
 */
 
 #include "simple_mc.h"
-#include<iostream>
+#include <iostream>
 using namespace std;
 
 int main()
@@ -38,14 +38,14 @@ int main()
     PayOff callPayOff(Strike, PayOff::call);
     PayOff putPayOff(Strike, PayOff::put);
 
-	double resultCall = SimpleMonteCarlo2(callPayOff,
+	double resultCall = simpleMonteCarlo2(callPayOff,
                                           Expiry,                                           
 							              Spot, 
 							              Vol, 
 							              r, 
 						                  NumberOfPaths);
 	
-    double resultPut = SimpleMonteCarlo2(putPayOff,
+    double resultPut = simpleMonteCarlo2(putPayOff,
                                          Expiry,                                           
 							             Spot, 
 							             Vol, 

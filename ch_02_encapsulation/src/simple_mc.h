@@ -8,12 +8,12 @@
 
 #include "payoff_1.h"
 
-double SimpleMonteCarlo2(const PayOff& thePayOff, 
-                         double Expiry, 
-						 double Spot,
-						 double Vol, 
-						 double r, 
-						 unsigned long NumberOfPaths);
-
+double simpleMonteCarlo2(
+    const PayOff& thePayOff,
+    double timeToExpiry,
+    double spot,
+    double vol,
+    double rate,
+    unsigned long numberOfPaths);
 
 #endif

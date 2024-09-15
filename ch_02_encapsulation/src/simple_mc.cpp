@@ -4,39 +4,41 @@
 */
 
 #include "simple_mc.h"
-#include "random_1.h"
 #include <cmath>
+#include <random>
 
-// the basic math functions should be in namespace std but aren't in VCPP6
-#if !defined(_MSC_VER)
-using namespace std;
-#endif
-
-double SimpleMonteCarlo2(const PayOff& thePayOff,
-                         double Expiry,  
-						 double Spot, 
-						 double Vol, 
-						 double r, 
-						 unsigned long NumberOfPaths)
+double simpleMonteCarlo2(
+    const PayOff& thePayOff,
+    const double timeToExpiry,
+    const double spot,
+    const double vol,
+    const double rate,
+    const unsigned long numberOfPaths)
 {
 
-	double variance = Vol*Vol*Expiry;
-	double rootVariance = sqrt(variance);
-	double itoCorrection = -0.5*variance;
+    const double variance = vol * vol * timeToExpiry;
+    const double rootVariance = std::sqrt(variance);
+    const double itoCorrection = -0.5 * variance;
+    const double rt = rate * timeToExpiry;
+    const double df = std::exp(-rt);
 
-	double movedSpot = Spot*exp(r*Expiry +itoCorrection);
-	double thisSpot;
-	double runningSum=0;
+    double movedSpot = spot * std::exp(itoCorrection) / df;
+    double runningSum = 0.0;
 
-	for (unsigned long i=0; i < NumberOfPaths; i++)
-	{
-		double thisGaussian = GetOneGaussianByBoxMuller();
-		thisSpot = movedSpot*exp( rootVariance*thisGaussian);
-		double thisPayOff = thePayOff(thisSpot);
-		runningSum += thisPayOff;
-	}
+    // set up random number
+    constexpr std::size_t seed = 123456789;
+    std::mt19937 generator(seed); // a specialization of std::mersenne_twister_engine
+    std::normal_distribution<double> distribution(0.0, 1.0); // standard normal distribution
 
-	double mean = runningSum / NumberOfPaths;
-	mean *= exp(-r*Expiry);
-	return mean;
+    for (auto i = 0u; i < numberOfPaths; ++i)
+    {
+        const double thisGaussian = distribution(generator);
+        const double thisSpot = movedSpot * std::exp(rootVariance * thisGaussian);
+        const double thisPayoff = thePayOff(thisSpot);
+        runningSum += thisPayoff;
+    }
+
+    const double mean = runningSum / numberOfPaths;
+    const double discountedMean = mean * df;
+    return mean;
 }
