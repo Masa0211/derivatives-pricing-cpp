@@ -9,15 +9,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Add subdirectory
-#set(SOURCE_FILES
-#    simple_mc_main_1.cpp
-#    )
-
-#set(HEADER_FILES
-#    random_1.h
-#    )
-
 file(GLOB_RECURSE SOURCES "./src/*.cpp" "./src/*.h")
 
 # Generate executable
